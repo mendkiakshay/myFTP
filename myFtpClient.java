@@ -1,7 +1,7 @@
 import java.util.*;
 import java.net.*;
 import java.io.*;
-class trialClient
+class myFtpClient
 {
 public static String takeInput() throws Exception
 {

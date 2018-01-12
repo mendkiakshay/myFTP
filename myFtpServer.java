@@ -1,6 +1,6 @@
 import java.net.*;
 import java.io.*;
-class trialServer
+class myFtpServer
 {
 
 public static String mkdir(String folderName)
