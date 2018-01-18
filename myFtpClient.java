@@ -12,13 +12,20 @@ return buffer.readLine();
 
 public static void main(String[] args) throws Exception
 {
-System.out.println("Enter the command");
+  //Created a Socket with port number 9999
+  Socket clientSocket =  new Socket("localhost", 9999);
+  PrintStream printStream = new PrintStream(clientSocket.getOutputStream());
 
-//Created a Socket with port number 9999
-Socket clientSocket =  new Socket("localhost", 9999);
-PrintStream printStream = new PrintStream(clientSocket.getOutputStream());
+  while(true)
+  {
+  System.out.println("Enter the command");
+  String command = takeInput();
+  printStream.println(command);
 
-String command = takeInput();
-printStream.println(command);
+  }
+
+
+
+
 }
 }
