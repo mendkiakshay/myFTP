@@ -1,101 +1,71 @@
+package GitSynFiles;
+
 import java.net.*;
 import java.io.*;
-class myFtpServer
-{
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 
-public static String currentPath;
+class myFtpServer {
 
-public static String mkdir(String folderName)
-{
-  try
-  {
-    File file1 = new File(".");
+	public static String[] splitCommand(String command) {
+		return command.split(" ");
+	}
 
-    File directory = new File(file1.getAbsolutePath()+"/"+folderName);
-    directory.mkdir();
-    return "success";
-  }
-  catch(Exception ex)
-  {
-    return ex.toString();
-  }
-}
-///
-///Method that sets current directory with the new Folder
-///
-public static String setCurrent(String folderName)
-{
-  try
-  {
-    //creates new directory for new folder
-    File directory = new File(folderName);
-    System.setProperty("user.dir", directory.getAbsolutePath()); //Sets this directory as current directory
-    File file = new File(System.getProperty("user.dir"));
-    return  file.getAbsolutePath();                              //returns Path of new directory
-  }
-  catch(Exception ex)
-  {
-    System.out.println(ex.toString());
-    return "error";
-  }
-}
-///
-///Method that sets current directory to its previous directory
-///
-public static String setPrevious()
-{
-  try
-  {
-    File file = new File(System.getProperty("user.dir"));
-    String parentPath = file.getAbsoluteFile().getParentFile().getAbsolutePath();  //Gets parent folder's path
-    System.setProperty("user.dir", parentPath);         //Sets current director as parent's
-    file = new File(System.getProperty("user.dir"));    //Gets current path
-    return  file.getAbsolutePath();
-  }
-  catch(Exception ex)
-  {
-    return ex.toString();
-  }
-}
+	public static void main(String[] args) {
+		String portNo = args[0];
+		int portNumber = Integer.parseInt(portNo);
+		myFtpServerProcess mycommand = new myFtpServerProcess();
+		System.out.println("Server Started");
+		
+		try {
+			ServerSocket serSocket = new ServerSocket(portNumber);
+			//ServerSocket serSocket = new ServerSocket(9999);
+			Socket socket = serSocket.accept();
+						
+			while (true) {
+				InputStreamReader reader = new InputStreamReader(socket.getInputStream());
+				BufferedReader buffer = new BufferedReader(reader);
+				String inputString = buffer.readLine();
+				System.out.println(inputString);
 
-public static String[] splitCommand(String command)
-{
-  return command.split(" ");
-}
+				if (splitCommand(inputString)[0].equalsIgnoreCase("mkdir")) {
+					System.out.println(mycommand.mkdir(splitCommand(inputString)[1]));
+				}
+				
+				if (splitCommand(inputString)[0].equalsIgnoreCase("cd")) {
+					if (!splitCommand(inputString)[1].equalsIgnoreCase(".."))
+						System.out.println(mycommand.setCurrent(splitCommand(inputString)[1]));
+					else
+						System.out.println(mycommand.setPrevious());
+				}
+				
+				if(splitCommand(inputString)[0].equalsIgnoreCase("delete")){
+					System.out.println(mycommand.delete(splitCommand(inputString)[1]));
+				}
+				
+				if(splitCommand(inputString)[0].equalsIgnoreCase("ls")){
+					if (splitCommand(inputString).length == 1)
+						mycommand.ls();
+					else
+						mycommand.ls(new File(splitCommand(inputString)[1]));
+				}
+				
+				if(splitCommand(inputString)[0].equalsIgnoreCase("pwd")){
+					mycommand.pwd(new File(""));
+				}
+				
+				if(splitCommand(inputString)[0].equalsIgnoreCase("put")){
+					mycommand.put(FileSystems.getDefault().getPath(splitCommand(inputString)[1]));
+				}
+				
+				if(inputString.equalsIgnoreCase("quit")){
+					socket.close();
+					break;
+				}
 
-public static void main(String[] args)
-{
-
-int portNumber = 9999;
-try
-{
-    ServerSocket serSocket = new ServerSocket(9999);
-    Socket socket = serSocket.accept();
-
-    while(true)
-    {
-      InputStreamReader reader = new InputStreamReader(socket.getInputStream());
-      BufferedReader buffer = new BufferedReader(reader);
-      String inputString = buffer.readLine();
-      System.out.println(inputString);
-
-      if(splitCommand(inputString)[0].equals("mkdir"))
-      {
-        System.out.println(mkdir(splitCommand(inputString)[1]));
-      }
-      if(splitCommand(inputString)[0].equals("cd"))
-      {
-        if(!splitCommand(inputString)[1].equals(".."))
-        System.out.println(setCurrent(splitCommand(inputString)[1]));
-        else
-        System.out.println(setPrevious());
-      }
-
-    }
-}
-catch(Exception ex)
-{
-  System.out.println("exception "+ex);
-}
-}
+			}
+		} catch (Exception ex) {
+			System.out.println("exception " + ex);
+		}
+	}
 }
