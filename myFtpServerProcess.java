@@ -10,8 +10,9 @@ public class myFtpServerProcess {
 
 	public String mkdir(String folderName) {
 		try {
-			File file1 = new File(".");
+			//File file1 = new File(".");
 
+			File file1 = new File(System.getProperty("user.dir"));
 			File directory = new File(file1.getAbsolutePath() + "/" + folderName);
 			directory.mkdir();
 			return "success";
@@ -60,7 +61,7 @@ public class myFtpServerProcess {
 			return ex.toString();
 		}
 	}
-	
+
 	//Method to delete a file
 	public String delete(String fileName){
 		File f = new File(fileName);
@@ -71,7 +72,7 @@ public class myFtpServerProcess {
 		else
 			return "Problem deleting File";
 	}
-	
+
 	//Method to list files and subdir- ls command
 	public void ls(File dir){
 		//File dir = new File(".");
@@ -80,7 +81,7 @@ public class myFtpServerProcess {
 			System.out.println(file.getName());
 		}
 	}
-	
+
 	public void ls(){
 		File dir = new File(System.getProperty("user.dir"));
 		File[] files = dir.listFiles();
@@ -88,12 +89,15 @@ public class myFtpServerProcess {
 			System.out.println(file.getName());
 		}
 	}
-	
+
 	//Method to print current dir- pwd
 	public void pwd(File file){
+		//System.out.println("Current Working Directory: " + file.getAbsolutePath());
+
+		file = new File(System.getProperty("user.dir"));
 		System.out.println("Current Working Directory: " + file.getAbsolutePath());
 	}
-	
+
 	//Mehtod to move file- put command
 	public void put(Path f1){
 		Path file2 = FileSystems.getDefault().getPath("./f1");
