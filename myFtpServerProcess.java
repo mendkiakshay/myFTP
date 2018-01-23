@@ -1,4 +1,5 @@
-package GitSynFiles;
+
+
 
 import java.io.File;
 import java.io.IOException;
@@ -74,31 +75,35 @@ public class myFtpServerProcess {
 	}
 
 	//Method to list files and subdir- ls command
-	public void ls(File dir){
+	public File[] ls(File dir){
 		//File dir = new File(".");
 		File[] files = dir.listFiles();
-		for (File file : files) {
-			System.out.println(file.getName());
-		}
+		// for (File file : files) {
+		// 	System.out.println(file.getName());
+		// }
+
+		return files;
 	}
 
-	public void ls(){
+	public File[] ls(){
 		File dir = new File(System.getProperty("user.dir"));
 		File[] files = dir.listFiles();
-		for (File file : files) {
-			System.out.println(file.getName());
-		}
+		// for (File file : files) {
+		// 	System.out.println(file.getName());
+		// }
+		return files;
 	}
 
 	//Method to print current dir- pwd
-	public void pwd(File file){
+	public String pwd(File file){
 		//System.out.println("Current Working Directory: " + file.getAbsolutePath());
 
 		file = new File(System.getProperty("user.dir"));
-		System.out.println("Current Working Directory: " + file.getAbsolutePath());
+		//System.out.println("Current Working Directory: " + file.getAbsolutePath());
+		return "Current Working Directory: " + file.getAbsolutePath();
 	}
 
-	//Mehtod to move file- put command
+	//Method to move file- put command
 	public void put(Path f1){
 		Path file2 = FileSystems.getDefault().getPath("./f1");
 		try {

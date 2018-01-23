@@ -1,4 +1,3 @@
-package GitSynFiles;
 
 import java.util.*;
 import java.net.*;
@@ -15,7 +14,7 @@ class myFtpClient {
 		String machineName = args[0];
 		String portNo = args[1];
 		int portNumber = Integer.parseInt(portNo);
-		
+
 		// Created a Socket with port number 9999
 		Socket clientSocket = new Socket(machineName, portNumber);
 		//Socket clientSocket = new Socket("localhost", 9999);
@@ -32,4 +31,3 @@ class myFtpClient {
 
 	}
 }
-
