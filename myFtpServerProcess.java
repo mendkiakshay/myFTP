@@ -1,6 +1,3 @@
-
-
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -103,11 +100,25 @@ public class myFtpServerProcess {
 		return "Current Working Directory: " + file.getAbsolutePath();
 	}
 
-	//Method to move file- put command
-	public void put(Path f1){
-		Path file2 = FileSystems.getDefault().getPath("./f1");
+	//Mehtod to move file- get command
+	public void get(String filename, String clientpath){
+		Path file1 = FileSystems.getDefault().getPath(System.getProperty("user.dir")+"\\"+filename);
+		Path file2 = FileSystems.getDefault().getPath(clientpath+"\\"+filename);
 		try {
-			Files.move(f1, file2);
+			Files.move(file1, file2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("File is moved");
+	}
+	
+	//Mehtod to move file- put command
+	public void put(String filename, String clientpath){
+		Path file1 = FileSystems.getDefault().getPath(clientpath+"\\"+filename);
+		Path file2 = FileSystems.getDefault().getPath("./"+filename);
+		try {
+			Files.move(file1, file2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
