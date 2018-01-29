@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.net.*;
 import java.io.*;
@@ -24,6 +23,9 @@ class myFtpClient {
 			System.out.print("mytftp> ");
 			String command = takeInput();
 			printStream.println(command);
+			printStream.println(command);
+			printStream.println(new File(System.getProperty("user.dir")));
+			printStream.flush();
 			if(command.equalsIgnoreCase("quit")){
 				break;
 			}
