@@ -1,4 +1,3 @@
-
 import java.net.*;
 import java.io.*;
 import java.nio.file.FileSystems;
@@ -25,7 +24,7 @@ class myFtpServer {
 				InputStreamReader reader = new InputStreamReader(socket.getInputStream());
 				BufferedReader buffer = new BufferedReader(reader);
 				String inputString = buffer.readLine();
-				System.out.println(inputString);
+				String clientdirpath = buffer.readLine();
 
 				if (splitCommand(inputString)[0].equalsIgnoreCase("mkdir")) {
 					System.out.println(mycommand.mkdir(splitCommand(inputString)[1]));
@@ -66,8 +65,13 @@ class myFtpServer {
 					System.out.println(mycommand.pwd(new File("")));
 				}
 
+				if(splitCommand(inputString)[0].equalsIgnoreCase("get")){
+					mycommand.get(splitCommand(inputString)[1], clientdirpath);
+					//System.out.println(clientdirpath);
+				}
+				
 				if(splitCommand(inputString)[0].equalsIgnoreCase("put")){
-					mycommand.put(FileSystems.getDefault().getPath(splitCommand(inputString)[1]));
+					mycommand.put(splitCommand(inputString)[1], clientdirpath);
 				}
 
 				if(inputString.equalsIgnoreCase("quit")){
