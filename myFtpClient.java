@@ -23,13 +23,32 @@ class myFtpClient {
 			System.out.print("mytftp> ");
 			String command = takeInput();
 			printStream.println(command);
-			printStream.println(command);
 			printStream.println(new File(System.getProperty("user.dir")));
 			printStream.flush();
+
+
+			InputStreamReader reader = new InputStreamReader(clientSocket.getInputStream());
+			BufferedReader buffer = new BufferedReader(reader);
+			String inputString = "";
+			String returnString ="";
+			inputString = buffer.readLine();
+
+			// while((inputString = buffer.readLine())!= null)
+			// {
+			// 	//System.out.println(inputString);
+			// 	returnString  = returnString+inputString;
+			// }
+
+			System.out.println(inputString);
+
 			if(command.equalsIgnoreCase("quit")){
 				break;
 			}
 		}
+
+
+
+
 
 	}
 }

@@ -101,29 +101,31 @@ public class myFtpServerProcess {
 	}
 
 	//Mehtod to move file- get command
-	public void get(String filename, String clientpath){
+	public String get(String filename, String clientpath){
 		Path file1 = FileSystems.getDefault().getPath(System.getProperty("user.dir")+"\\"+filename);
 		Path file2 = FileSystems.getDefault().getPath(clientpath+"\\"+filename);
 		try {
 			Files.move(file1, file2);
+			return("File is moved");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		return	"error";
 		}
-		System.out.println("File is moved");
+
 	}
-	
+
 	//Mehtod to move file- put command
-	public void put(String filename, String clientpath){
+	public String put(String filename, String clientpath){
 		Path file1 = FileSystems.getDefault().getPath(clientpath+"\\"+filename);
 		Path file2 = FileSystems.getDefault().getPath("./"+filename);
 		try {
 			Files.move(file1, file2);
+			return("File is moved");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return "error";
 		}
-		System.out.println("File is moved");
+
 	}
 
 }
